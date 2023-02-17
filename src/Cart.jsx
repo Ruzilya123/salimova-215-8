@@ -1,9 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import MyButton from './button/MyButton';
+import MyButton from '../../src/button/MyButton';
+import { useNavigate } from "react-router-dom";
 import './style.css'
 
 function Cart({ cart, setCart, user, pets, setOrders }) {
+
+    const navigate = useNavigate()
 
     const handleRemoveFromCart = (pet) => {
       setCart(cart.filter((a) => a.id !== pet.id));
@@ -61,6 +64,7 @@ function Cart({ cart, setCart, user, pets, setOrders }) {
         }
         setOrders([...pets, obj_cart]);
         setCart([]);
+        navigate("/orders");
     }
 
     return (

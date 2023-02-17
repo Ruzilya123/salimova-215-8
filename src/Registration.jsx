@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import MyButton from './button/MyButton';
 import MyInput from './input/MyInput';
+import './style.css'
 
 function Registration({ users, setUsers, user, setUser, email, setEmail, setEmailIsValid, setError, error, password, confirmPassword, setPassword, setConfirmPassword, isLoaded }) {
 
@@ -58,6 +59,7 @@ function Registration({ users, setUsers, user, setUser, email, setEmail, setEmai
                 <div className="form-group">
                     <label htmlFor="email">Почта</label>
                     <MyInput
+                        className={error? 'error' : ''}
                         type="email"
                         id="email"
                         value={email}
@@ -67,6 +69,7 @@ function Registration({ users, setUsers, user, setUser, email, setEmail, setEmai
                 <div className="form-group">
                     <label htmlFor="password">Пароль</label>
                     <MyInput
+                        className={error? 'error' : ''}
                         type="password"
                         id="password"
                         value={password}
@@ -76,6 +79,7 @@ function Registration({ users, setUsers, user, setUser, email, setEmail, setEmai
                 <div className="form-group">
                     <label htmlFor="confirmPassword">Подтвердите пароль</label>
                     <MyInput
+                        className={error? 'error' : ''}
                         type="password"
                         id="confirmPassword"
                         value={confirmPassword}

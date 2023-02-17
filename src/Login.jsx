@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import MyButton from './button/MyButton';
 import MyInput from './input/MyInput';
 import { useNavigate } from 'react-router-dom';
+import './style.css'
 
 function Login({ onLogin, users, user, email, setEmail, setError, error, password, setPassword }) {
 
@@ -33,6 +34,7 @@ function Login({ onLogin, users, user, email, setEmail, setError, error, passwor
           <label htmlFor="email">Почта</label>
           <MyInput
             id="email"
+            className={error? 'error' : ''}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -41,6 +43,7 @@ function Login({ onLogin, users, user, email, setEmail, setError, error, passwor
           <label htmlFor="password">Пароль</label>
           <MyInput
             type="password"
+            className={error? 'error' : ''}
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
