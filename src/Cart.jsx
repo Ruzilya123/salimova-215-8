@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import MyButton from '../../src/button/MyButton';
+import MyButton from './button/MyButton';
 import { useNavigate } from "react-router-dom";
 import './style.css'
 
-function Cart({ cart, setCart, user, pets, setOrders }) {
+function Cart({ cart, setCart, user, pets, setOrders, orders }) {
 
     const navigate = useNavigate()
 
@@ -25,8 +25,10 @@ function Cart({ cart, setCart, user, pets, setOrders }) {
     if (cart.length === 0) {
         return (
           <main>
-            <Link to="/">Дом питомцев</Link>
-            <Link to="/orders">Заказы</Link>
+            <div className="links">
+              <Link to="/">Дом питомцев</Link>
+              <Link to="/orders">Заказы({orders.length})</Link>
+            </div>
             <h1>Корзина</h1>
             <p>Ваша корзина пуста</p>
           </main>
@@ -49,20 +51,12 @@ function Cart({ cart, setCart, user, pets, setOrders }) {
         setCart(newCart.filter((item) => item !== null));
     };
 
-    const maxId = pets.reduce((acc, pet) => {
-        return Math.max(acc, pet.id);
-    }, 0);
-
     const checkout = () => {
         if (cart.length === 0) {
           alert("Ваша корзина пуста");
           return;
         }
-        const obj_cart = {
-          id: maxId + 1,
-          products: cart
-        }
-        setOrders([...pets, obj_cart]);
+        setOrders([...orders, {cart: cart}]);
         setCart([]);
         navigate("/orders");
     }
@@ -71,7 +65,7 @@ function Cart({ cart, setCart, user, pets, setOrders }) {
         <div>
             <div className="links">
                 <Link to="/">Дом питомцев</Link>
-                <Link to="/orders">Заказы</Link>
+                <Link to="/orders">Заказы({orders?.length})</Link>
             </div>
             <h1>Корзина</h1>
             <p style={{ display: "flex", justifyContent: "center", flexDirection: "column" }}>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
 import MyButton from "./button/MyButton";
 import "./style.css";
 
@@ -72,11 +71,11 @@ function Home({ isLoaded, setIsLoaded, pets, setPets, user, setUser, cart, setCa
         </>
       ) : (
         <>
-          {user ? (
+          {user != null ? (
             <>
               <div className="links">
                   <Link to="/">Дом питомцев</Link>
-                  <Link to="/cart">Корзина</Link>
+                  <Link to="/cart">Корзина({cart?.length})</Link>
                   <Link to="/login" onClick={logout}>Выйти из аккаунта</Link>
               </div>
               <h1>Дом питомцев</h1>

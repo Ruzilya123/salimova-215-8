@@ -12,7 +12,7 @@ function Routing() {
 
     const [pets, setPets] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState(null);
     const [users, setUsers] = useState([]);
     const [cart, setCart] = useState([]);
     const [email, setEmail] = useState('');
@@ -106,6 +106,7 @@ function Routing() {
                         pets={pets}
                         user={user}
                         cart={cart}
+                        setUser={setUser}
                         setCart={setCart}
                         setPets={setPets}
                         isLoaded={isLoaded}

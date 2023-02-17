@@ -7,7 +7,9 @@ function ComplitedOrders({orders, user}) {
   const ordersList = orders.map((order) => {
     return (
       <li key={order.id}>
-        <h3>{order.name}</h3>
+        {order?.cart?.map((checkout) => (
+            <h3>{checkout.name}</h3>
+        ))}
       </li>
     );
   });

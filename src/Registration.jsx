@@ -5,9 +5,13 @@ import MyButton from './button/MyButton';
 import MyInput from './input/MyInput';
 import './style.css'
 
-function Registration({ users, setUsers, user, setUser, email, setEmail, setEmailIsValid, setError, error, password, confirmPassword, setPassword, setConfirmPassword, isLoaded }) {
+function Registration({ users, setUsers, user, setUser, email, setEmail, setEmailIsValid, setError, error, password, confirmPassword, setPassword, setConfirmPassword }) {
 
     const navigate = useNavigate();
+
+    const [errorEmail, setErrorEmail] = useState(false);
+    const [errorPassword, setErrorPassword] = useState(false);
+    const [errorConfirmPassword, setErrorConfirmPassword] = useState(false)
 
     const validateEmail = (email) => {
       const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -15,7 +19,7 @@ function Registration({ users, setUsers, user, setUser, email, setEmail, setEmai
     };
 
     function onEmailChange(e) {
-      setEmail(e.target.value);
+      setEmail(e.target.value); 
       setEmailIsValid(validateEmail(e.target.value));
     }
 
@@ -24,26 +28,29 @@ function Registration({ users, setUsers, user, setUser, email, setEmail, setEmai
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (!user) {
+        if (user) {
           setError('Вы уже зарегистрированы');
           return;
         }
 
         if (isUser({ email })) {
           setError('Пользователь с таким email уже существует');
-          return;
+          setErrorEmail(true)
+          return true;
         }
 
         if (password !== confirmPassword) {
           setError('Пароли не совпадают');
-          return;
+          setErrorPassword(true);
+          setErrorConfirmPassword(true)
+          return true;
         }
 
         else {
           localStorage.setItem('email', email);
           localStorage.setItem('password', password);
-          setUser({ email, password });
-          setUsers([...users, { email, password }]);
+          const user = {email, password}
+          setUsers([...users, user]);
           localStorage.setItem('users', JSON.stringify({users: users}));
           console.log(users);
           setError('Успешно');
@@ -59,7 +66,7 @@ function Registration({ users, setUsers, user, setUser, email, setEmail, setEmai
                 <div className="form-group">
                     <label htmlFor="email">Почта</label>
                     <MyInput
-                        className={error? 'error' : ''}
+                        className={errorEmail ? "error" : ""}
                         type="email"
                         id="email"
                         value={email}
@@ -69,7 +76,7 @@ function Registration({ users, setUsers, user, setUser, email, setEmail, setEmai
                 <div className="form-group">
                     <label htmlFor="password">Пароль</label>
                     <MyInput
-                        className={error? 'error' : ''}
+                        className={errorPassword ? "error" : ""}
                         type="password"
                         id="password"
                         value={password}
@@ -79,14 +86,14 @@ function Registration({ users, setUsers, user, setUser, email, setEmail, setEmai
                 <div className="form-group">
                     <label htmlFor="confirmPassword">Подтвердите пароль</label>
                     <MyInput
-                        className={error? 'error' : ''}
+                        className={errorConfirmPassword ? "error" : ""}
                         type="password"
                         id="confirmPassword"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />
                 </div>
-                {error && <div className="error">{error}</div>}
+                {error && <div>{error}</div>}
                 <MyButton className="registration__form-button" type="submit">Зарегистрироваться</MyButton>
             </form>
             <p>

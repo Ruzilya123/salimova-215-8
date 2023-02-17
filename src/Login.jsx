@@ -5,19 +5,21 @@ import MyInput from './input/MyInput';
 import { useNavigate } from 'react-router-dom';
 import './style.css'
 
-function Login({ onLogin, users, user, email, setEmail, setError, error, password, setPassword }) {
+function Login({ onLogin, users, user, email, setEmail, setError, error, password, setPassword, setUser }) {
 
   const navigate = useNavigate();
 
-  function isUser() {
-    return users.find((item) => item.email === email && item.password === password);
+  function isUser(user) {
+    return users.find((item) => item.email === user.email && item.password === user.password);
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(user, users)
-    if (isUser({ email, password })) {
+    const user = {email, password}
+    console.log(user)
+    if (isUser(user)) {
+      setUser(user)
       setError('Успешно');
       navigate('/');
     } else {
@@ -34,7 +36,6 @@ function Login({ onLogin, users, user, email, setEmail, setError, error, passwor
           <label htmlFor="email">Почта</label>
           <MyInput
             id="email"
-            className={error? 'error' : ''}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -43,13 +44,12 @@ function Login({ onLogin, users, user, email, setEmail, setError, error, passwor
           <label htmlFor="password">Пароль</label>
           <MyInput
             type="password"
-            className={error? 'error' : ''}
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        {error && <div className="error">{error}</div>}
+        {error && <div>{error}</div>}
         <MyButton onClick={onLogin} type="submit">Войти</MyButton>
       </form>
       <p>
